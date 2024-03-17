@@ -17,8 +17,8 @@
       }
       .video-container {
         position: relative;        
-        width: 70%; /* Adjust container width as needed */
-        height: 70%; /* Adjust container height as needed */
+        width: 100%; /* Adjust container width as needed */
+        height: 100%; /* Adjust container height as needed */
       }
       .video-container video {
         width: 100%; /* Take full width of container */
@@ -65,11 +65,28 @@
       const thirdVideo = document.getElementById("thirdVideo");
       const playIcon = document.getElementById("playIcon");
 
+      let currentVideo = firstVideo; // Track the current video
+
       // Function to transition between videos
-      function transitionVideos(currentVideo, nextVideo) {
+      function transitionVideos(nextVideo) {
+        currentVideo.pause(); // Pause the current video
         currentVideo.parentElement.style.display = "none";
         nextVideo.parentElement.style.display = "block";
         nextVideo.play();
+        currentVideo = nextVideo; // Update current video
+      }
+
+      // Function to toggle play/pause when spacebar is pressed
+      function togglePlayPause(event) {
+        if (event.keyCode === 32) { // 32 is the keycode for spacebar
+          event.preventDefault(); // Prevent spacebar from scrolling the page
+          if (currentVideo.paused) {
+            currentVideo.play();
+            playIcon.style.display = "none"; // Hide the play icon when playing
+          } else {
+            currentVideo.pause();
+          }
+        }
       }
 
       playIcon.addEventListener("click", function () {
@@ -78,11 +95,11 @@
       });
 
       firstVideo.addEventListener("pause", function () {
-        transitionVideos(firstVideo, secondVideo);
+        transitionVideos(secondVideo);
       });
 
       secondVideo.addEventListener("pause", function () {
-        transitionVideos(secondVideo, thirdVideo);
+        transitionVideos(thirdVideo);
       });
 
       thirdVideo.addEventListener("ended", function () {
@@ -92,6 +109,9 @@
 
       // Pause the first video initially
       firstVideo.pause();
+
+      // Add event listener for spacebar press
+      document.addEventListener("keydown", togglePlayPause);
     </script>
   </body>
 </html>
