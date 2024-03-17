@@ -1,11 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Video Player</title>
-<style>
-    body {
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Video Player</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+      body {
         margin: 0; /* Remove default margin */
         padding: 0; /* Remove default padding */
         display: flex;
@@ -13,70 +14,84 @@
         align-items: center;
         height: 100vh;
         width: 100%;
-    }
-    .video-container {
+      }
+      .video-container {
+        position: relative;        
         width: 70%; /* Adjust container width as needed */
         height: 70%; /* Adjust container height as needed */
-    }
-    .video-container video {
+      }
+      .video-container video {
         width: 100%; /* Take full width of container */
         object-fit: cover;
         height: 100%; /* Take full height of container */
-    }
-</style>
-</head>
-<body>
-
-<div class="video-container">
-    <video id="firstVideo" controls>
-        <source src="video1.mp4" type="video/mp4">
+      }
+      .play-icon {
+        position: absolute;
+        font-size: 5em; /* Adjust icon size as needed */
+        right: 50%;
+        top: 50%;
+        color: white;
+        cursor: pointer; /* Change cursor to pointer on hover */
+        transform: translate(50%, -50%); /* Center the icon */
+      }
+    </style>
+  </head>
+  <body>
+    <div class="video-container">
+      <video id="firstVideo" controls>
+        <source src="video1.mp4" type="video/mp4" />
         Your browser does not support the video tag.
-    </video>
-    <!-- <button class="play-button" onclick="playVideo('firstVideo')">Play</button> -->
-</div>
+      </video>
+      <i id="playIcon" class="fa fa-play play-icon"></i>
+    </div>
 
-<div class="video-container" style="display: none;">
-    <video id="secondVideo" controls>
-        <source src="video2.mp4" type="video/mp4">
+    <div class="video-container" style="display: none">
+      <video id="secondVideo" controls>
+        <source src="video2.mp4" type="video/mp4" />
         Your browser does not support the video tag.
-    </video>
-</div>
+      </video>
+    </div>
 
-<div class="video-container" style="display: none;">
-    <video id="thirdVideo" controls>
-        <source src="video3.mp4" type="video/mp4">
+    <div class="video-container" style="display: none">
+      <video id="thirdVideo" controls>
+        <source src="video3.mp4" type="video/mp4" />
         Your browser does not support the video tag.
-    </video>
-</div>
+      </video>
+    </div>
 
-<script>
-    const firstVideo = document.getElementById('firstVideo');
-    const secondVideo = document.getElementById('secondVideo');
-    const thirdVideo = document.getElementById('thirdVideo');
+    <script>
+      const firstVideo = document.getElementById("firstVideo");
+      const secondVideo = document.getElementById("secondVideo");
+      const thirdVideo = document.getElementById("thirdVideo");
+      const playIcon = document.getElementById("playIcon");
 
-    // Function to transition between videos
-    function transitionVideos(currentVideo, nextVideo) {
-        currentVideo.parentElement.style.display = 'none';
-        nextVideo.parentElement.style.display = 'block';
+      // Function to transition between videos
+      function transitionVideos(currentVideo, nextVideo) {
+        currentVideo.parentElement.style.display = "none";
+        nextVideo.parentElement.style.display = "block";
         nextVideo.play();
-    }
+      }
 
-    firstVideo.addEventListener('pause', function() {
+      playIcon.addEventListener("click", function () {
+        firstVideo.play();
+        playIcon.style.display = "none"; // Hide the play icon after clicking
+      });
+
+      firstVideo.addEventListener("pause", function () {
         transitionVideos(firstVideo, secondVideo);
-    });
+      });
 
-    secondVideo.addEventListener('pause', function() {
+      secondVideo.addEventListener("pause", function () {
         transitionVideos(secondVideo, thirdVideo);
-    });
+      });
 
-    thirdVideo.addEventListener('ended', function() {
+      thirdVideo.addEventListener("ended", function () {
         // Reload the page when the third video ends
         location.reload();
-    });
+      });
 
-    // Pause the first video initially
-    firstVideo.pause();
-</script>
-
-</body>
+      // Pause the first video initially
+      firstVideo.pause();
+    </script>
+  </body>
 </html>
